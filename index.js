@@ -33,14 +33,27 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
+    // create Db and some Collection
+    const usersDB = client.db('usersDB');
+    const usersCollection = usersDB.collection('users');
+
     // all api here to the connected DB
-    app.get('/users', (req, res) => {
-      res.send();
+    app.get('/users', async (req, res) => {
+      console.log('users data', req.body);
+      const cursor = usersCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
     });
 
-    app.post('/users', (req, res) => {
+    app.post('/users', async (req, res) => {
       const newUser = req.body;
       console.log('user info ', newUser);
+      const result = await usersCollection.insertOne(newUser);
+      res.send(result);
+    });
+
+    app.delete('/users/:id', (req, res) => {
+      console.log(req.params);
     });
 
     // Send a ping to confirm a successful connection
