@@ -66,9 +66,12 @@ async function run() {
       const query = { _id: new ObjectId(id) };
       const result = await usersCollection.deleteOne(query);
       res.send(result);
-      console.log('Delete a database from DB');
+      console.log('Delete a user from DB');
     });
 
+    app.patch('/users/:id', (req, res) => {
+      console.log('');
+    });
     // Send a ping to confirm a successful connection
     await client.db('admin').command({ ping: 1 });
     console.log(
